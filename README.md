@@ -1,4 +1,4 @@
-# Find Left Most Prime
+# Find The Left Most Prime
 
 ### Description
 

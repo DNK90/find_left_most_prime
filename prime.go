@@ -68,3 +68,39 @@ func (p Prime)GetPrimes(fileName string) error {
 	decoder := gob.NewDecoder(file)
 	return decoder.Decode(&p)
 }
+
+// BinarySearch is used to search highest prime that is less than given number (n)
+func (p Prime)BinarySearch(left, right, n int) int {
+	if len(p) == 0 {
+		return 0
+	}
+	if left <= right {
+		mid := (left+right)/2
+		// if mid reaches left corner (0) or right corner (len-1) then return primes[mid]
+		if mid == 0 || mid == len(p)-1 {
+			return p[mid]
+		}
+		// if primes[mid] is n then return primse[mid-1] which is previous element.
+		if p[mid] == n {
+			return p[mid-1]
+		}
+		if p[mid] < n && p[mid+1] > n {
+			return p[mid]
+		}
+		if p[mid] > n {
+			return p.BinarySearch(left, mid - 1, n)
+		}
+		return p.BinarySearch(mid + 1, right, n)
+	}
+	return 0
+}
+
+// LoadPrimes loads primes from file and if file does not exist, call SieveOfSundaram to get all primes.
+func (p Prime)LoadPrimes(fileName string, number int) error {
+	if _, err := os.Stat(fileName); os.IsNotExist(err) {
+		// start SieveOfSundaram in `number's range` and save to file
+		p.SieveOfSundaram(number)
+		return p.SavePrimes(fileName)
+	}
+	return p.GetPrimes(fileName)
+}
