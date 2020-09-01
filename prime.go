@@ -59,7 +59,7 @@ func (p Prime)SavePrimes(fileName string) error {
 }
 
 // GetPrimes reads primes from given fileName
-func (p Prime)GetPrimes(fileName string) error {
+func (p *Prime)GetPrimes(fileName string) error {
 	file, err := os.Open(fileName)
 	if err != nil {
 		return err
@@ -96,7 +96,7 @@ func (p Prime)BinarySearch(left, right, n int) int {
 }
 
 // LoadPrimes loads primes from file and if file does not exist, call SieveOfSundaram to get all primes.
-func (p Prime)LoadPrimes(fileName string, number int) error {
+func (p *Prime)LoadPrimes(fileName string, number int) error {
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
 		// start SieveOfSundaram in `number's range` and save to file
 		p.SieveOfSundaram(number)
