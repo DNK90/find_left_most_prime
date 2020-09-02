@@ -1,4 +1,4 @@
-module github.com/dnk90/finding_largest_prime
+module github.com/dnk90/find_left_most_prime
 
 go 1.13
 
