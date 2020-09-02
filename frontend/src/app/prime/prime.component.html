@@ -1,0 +1,9 @@
+<div style="margin-top:50px">
+	<label>Input a number
+		<input #numberValue />
+	</label>
+	<button (click)="getPrime(numberValue.value)">Search</button>
+</div>
+<div>
+	<p *ngIf="prime!==undefined">The left most prime: {{prime.output}} - Elapsed Time: {{prime.elapsedTime/1000}} Microseconds</p>
+</div>
