@@ -1,4 +1,4 @@
-package main
+package prime
 
 import (
 	"encoding/gob"

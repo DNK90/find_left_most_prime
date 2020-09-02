@@ -1,4 +1,4 @@
-package main
+package prime
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ import (
 type PrimeTestSuite struct {
 	suite.Suite
 	fileName, startFile string
-	prime Prime
+	prime               Prime
 }
 
 func (suite *PrimeTestSuite) SetupSuite() {

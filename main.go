@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	prime2 "github.com/dnk90/finding_largest_prime/prime"
 	"github.com/gin-gonic/gin"
 	"math"
 	"net/http"
@@ -12,7 +13,7 @@ import (
 	"time"
 )
 
-const fileName = "prime"
+const fileName = "data"
 
 type flags struct {
 	path string
@@ -55,7 +56,7 @@ func main() {
 		}
 	}
 	// load primes
-	prime := NewPrime()
+	prime := prime2.NewPrime()
 	if err = prime.LoadPrimes(filepath.Join(args.path, fileName), math.MaxInt32); err != nil {
 		panic(err)
 	}
