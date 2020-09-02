@@ -3,8 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	prime2 "github.com/dnk90/finding_largest_prime/prime"
+	prime2 "github.com/dnk90/find_left_most_prime/prime"
 	"github.com/gin-gonic/gin"
+	"log"
 	"math"
 	"net/http"
 	"os"
@@ -24,6 +25,8 @@ func initFlag(args *flags) {
 var args flags
 
 func init() {
+	log.SetPrefix("API")
+	log.SetFlags(log.Ldate | log.Lmicroseconds | log.Llongfile)
 	initFlag(&args)
 }
 
@@ -58,7 +61,7 @@ func main() {
 	// load primes
 	prime := prime2.NewPrime()
 	if err = prime.LoadPrimes(filepath.Join(args.path, fileName), math.MaxInt32); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// start server
