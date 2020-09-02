@@ -5,4 +5,4 @@ WORKDIR frontend-app
 ADD . .
 RUN npm install
 EXPOSE 4200
-ENTRYPOINT ["ng", "serve"]
+ENTRYPOINT ["ng", "serve", "--host", "0.0.0.0"]
