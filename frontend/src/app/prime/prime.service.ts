@@ -18,7 +18,7 @@ const httpOptions = {
 
 @Injectable()
 export class PrimeService {
-	apiUrl = new String(environment.apiUrl).concat("v1/prime");
+	apiUrl = new String(environment.apiUrl).concat("/v1/prime");
 	private handleError: HandleError;
 
 	constructor(private http:HttpClient, httpErrorHandler: HttpErrorHandler) {
@@ -26,6 +26,7 @@ export class PrimeService {
 	}
 
 	getPrime(no: string): Observable<Prime> {
+		console.log(this.apiUrl);
 		const options = {
 			params: new HttpParams().set("number", no)
 		};
