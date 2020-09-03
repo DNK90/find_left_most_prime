@@ -3,12 +3,12 @@ services:
   frontend:
     build:
       context: ../frontend
-      dockerfile: frontend.Dockerfile
+      dockerfile: ../docker/frontend.Dockerfile
     ports:
       - "4200:4200"
   api:
     build:
       context: ..
-      dockerfile: api.Dockerfile
+      dockerfile: docker/api.Dockerfile
     ports:
       - "8080:8080"
