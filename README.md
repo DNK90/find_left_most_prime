@@ -49,3 +49,7 @@ then run:
 cd docker
 docker-compose -f prod.docker-compose.yml up -d
 ```
+
+### Demo
+
+http://http://104.154.68.172:4200/
