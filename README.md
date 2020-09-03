@@ -51,5 +51,14 @@ docker-compose -f prod.docker-compose.yml up -d
 ```
 
 ### Demo
+```
+http://104.154.68.172:4200
+```
 
-http://http://104.154.68.172:4200/
+### Test Coverage
+
+```
+PASS
+coverage: 93.8% of statements
+ok      github.com/dnk90/find_left_most_prime/prime     0.787s
+```
