@@ -8,19 +8,19 @@ import (
 	"log"
 	"math"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
-	"path/filepath"
+	"runtime"
+	"runtime/pprof"
 	"strconv"
 	"time"
 )
 
-const fileName = "data"
-
 type flags struct {
-	path string
+	memprofile string
 }
 func initFlag(args *flags) {
-	flag.StringVar(&args.path, "path", "", "path that stores primes list.")
+	flag.StringVar(&args.memprofile, "memprofile", "", "write memory profile to `file`")
 }
 var args flags
 
@@ -31,8 +31,8 @@ func init() {
 }
 
 type Response struct {
-	Output      int `json:"output"`
-	ElapsedTime int `json:"elapsedTime"`
+	Output      int32 `json:"output"`
+	ElapsedTime int   `json:"elapsedTime"`
 }
 
 // CORSMiddleWare defines Access-Control-Allow
@@ -51,17 +51,22 @@ func CORSMiddleWare() gin.HandlerFunc {
 }
 
 func main() {
-	var err error
 	flag.Parse()
-	if args.path == "" {
-		if args.path, err = os.Getwd(); err != nil {
-			panic(err)
-		}
-	}
 	// load primes
-	prime := prime2.NewPrime()
-	if err = prime.LoadPrimes(filepath.Join(args.path, fileName), math.MaxInt32); err != nil {
-		log.Fatal(err)
+	log.Println("Loading Primes")
+	prime := prime2.SieveOfSundaram(math.MaxInt32)
+	log.Println("Finished loading primes, Starting API")
+	// write memory profile after load primes
+	if args.memprofile != "" {
+		f, err := os.Create(args.memprofile)
+		if err != nil {
+			log.Fatal("could not create memory profile: ", err)
+		}
+		defer f.Close() // error handling omitted for example
+		runtime.GC() // get up-to-date statistics
+		if err := pprof.WriteHeapProfile(f); err != nil {
+			log.Fatal("could not write memory profile: ", err)
+		}
 	}
 
 	// start server
@@ -95,7 +100,7 @@ func main() {
 				c.String(http.StatusBadRequest, "number must be integer")
 			} else {
 				startTime := time.Now().UnixNano()
-				result := prime.BinarySearch(0, len(prime)-1, number)
+				result := prime.BinarySearch(0, int32(len(prime)-1), int32(number))
 				endTime := time.Now().UnixNano()
 				c.JSON(http.StatusOK, &Response{
 					Output:      result,

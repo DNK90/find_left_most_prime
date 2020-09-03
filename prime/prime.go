@@ -13,34 +13,41 @@ import (
  */
 
 // define Prime as a slice of integer
-type Prime []int
+type Prime []int32
 
 func NewPrime() Prime {
 	return make(Prime, 0)
 }
 
 // SieveOfSundaram receives n as an integer number. It will base on Sundaram algorithm get all primes in n's range.
-func (p *Prime)SieveOfSundaram(n int) {
+func SieveOfSundaram(n int) Prime {
 	if n < 2 {
-		return
+		return nil
 	}
 	// In general, Sieve of Sundaram produces less than (2x+2) number of primes.
 	// <=> 2x+2 <= n
 	// <=> x <= (n-2)/2
 	k := (n-2)/2
 	a := make([]bool, k+1)
-	*p = append(*p, 2)
 
+	// init primes which also has k+1 length
+	primes := make([]int32, k+1)
+	primes[0] = 2
+	// count how many primes
 	for i:=1; i<k+1; i++{
 		for j:=i; i+j+(2*i*j) <= k; j++ {
 			a[i+j+(2*i*j)] = true
 		}
 	}
+	counter := 1
 	for i:=1; i<k+1; i++ {
 		if !a[i] {
-			*p = append(*p, 2*i+1)
+			primes[counter] = int32(2*i+1)
+			counter ++
 		}
 	}
+	// get valuable parts
+	return primes[0:counter]
 }
 
 // Save saves list primes into file
@@ -70,14 +77,14 @@ func (p *Prime)GetPrimes(fileName string) error {
 }
 
 // BinarySearch is used to search highest prime that is less than given number (n)
-func (p Prime)BinarySearch(left, right, n int) int {
+func (p Prime)BinarySearch(left, right, n int32) int32 {
 	if len(p) == 0 {
 		return 0
 	}
 	if left <= right {
 		mid := (left+right)/2
 		// if mid reaches left corner (0) or right corner (len-1) then return primes[mid]
-		if mid == 0 || mid == len(p)-1 {
+		if mid == 0 || mid == int32(len(p)-1) {
 			return p[mid]
 		}
 		// if primes[mid] is n then return primse[mid-1] which is previous element.
@@ -99,7 +106,7 @@ func (p Prime)BinarySearch(left, right, n int) int {
 func (p *Prime)LoadPrimes(fileName string, number int) error {
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
 		// start SieveOfSundaram in `number's range` and save to file
-		p.SieveOfSundaram(number)
+		*p = SieveOfSundaram(number)
 		return p.SavePrimes(fileName)
 	}
 	return p.GetPrimes(fileName)
