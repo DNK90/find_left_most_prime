@@ -1,0 +1,14 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: frontend.prod.Dockerfile
+    ports:
+      - "4200:4200"
+  api:
+    build:
+      context: ..
+      dockerfile: api.Dockerfile
+    ports:
+      - "8080:8080"
