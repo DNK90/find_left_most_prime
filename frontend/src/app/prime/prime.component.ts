@@ -10,7 +10,7 @@ import { Prime } from './prime';
 })
 export class PrimeComponent implements OnInit {
   prime: Prime;
-  error: String;
+  error: string;
   constructor(private primeService: PrimeService) { }
   ngOnInit(): void {
   }
@@ -24,7 +24,7 @@ export class PrimeComponent implements OnInit {
     }
   }
 
-  validateNumber(no: String): Boolean {
+  validateNumber(no: string): Boolean {
     let num = parseInt(no, 10);
     return num !== NaN && num >= 0 && num < 2147483648;
   }
