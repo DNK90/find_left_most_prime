@@ -1,4 +1,4 @@
-# Find The Left Most Prime
+# Find The Highest Prime Which Less Than Given Number
 
 ### Description
 
