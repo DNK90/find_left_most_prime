@@ -101,7 +101,9 @@ func main() {
 			number, err := strconv.Atoi(c.Query("number"))
 			if err != nil {
 				c.String(http.StatusBadRequest, "number must be integer")
-			} else {
+			} else if number < 0 || number > math.MaxInt32 {
+				c.String(http.StatusBadRequest, fmt.Sprintf("number must be in range [0:%v]", math.MaxInt32))
+			}  else {
 				startTime := time.Now().UnixNano()
 				result := prime.BinarySearch(0, int32(len(prime.Primes)-1), int32(number))
 				endTime := time.Now().UnixNano()
