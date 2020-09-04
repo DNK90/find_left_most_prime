@@ -5,5 +5,6 @@
 	<button (click)="getPrime(numberValue.value)">Search</button>
 </div>
 <div>
-	<p *ngIf="prime!==undefined">The left most prime: {{prime.output}} - Elapsed Time: {{prime.elapsedTime/1000}} Microseconds</p>
+	<p *ngIf="error!==undefined" style="font-size: 11px; color: red">{{error}}</p>
+	<p *ngIf="prime!==undefined" style="font-size: 11px;">The left most prime: {{prime.output}} - Elapsed Time: {{prime.elapsedTime/1000}} Microseconds</p>
 </div>

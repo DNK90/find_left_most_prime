@@ -26,7 +26,6 @@ export class PrimeService {
 	}
 
 	getPrime(no: string): Observable<Prime> {
-		console.log(this.apiUrl);
 		const options = {
 			params: new HttpParams().set("number", no)
 		};
