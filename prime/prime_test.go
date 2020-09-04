@@ -31,14 +31,14 @@ func (suite *PrimeTestSuite) TearDownSuite() {
 }
 
 func(suite *PrimeTestSuite)Test_1_LoadPrimes_1_LessThan2() {
-	prime := SieveOfSundaram(1)
-	suite.True(prime == nil)
+	suite.prime.SieveOfSundaram(1)
+	suite.Equal(0, len(suite.prime.Primes))
 }
 
 func (suite *PrimeTestSuite)Test_1_LoadPrimes_2_GreaterThan2() {
 	expected := &Prime{Primes: []int32{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113}}
 	startTime := time.Now()
-	suite.prime = SieveOfSundaram(math.MaxInt8)
+	suite.prime.SieveOfSundaram(math.MaxInt8)
 	endTime := time.Now()
 	println(fmt.Sprintf("Elapsed time is %v len is %v", endTime.Sub(startTime), len(suite.prime.Primes)))
 	suite.Equal(expected, suite.prime)

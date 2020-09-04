@@ -22,9 +22,9 @@ func NewPrime() *Prime {
 }
 
 // SieveOfSundaram receives n as an integer number. It will base on Sundaram algorithm get all primes in n's range.
-func SieveOfSundaram(n int) *Prime {
+func (p *Prime)SieveOfSundaram(n int) {
 	if n < 2 {
-		return nil
+		return
 	}
 	// In general, Sieve of Sundaram produces less than (2x+2) number of primes.
 	// <=> 2x+2 <= n
@@ -48,7 +48,7 @@ func SieveOfSundaram(n int) *Prime {
 		}
 	}
 	// get valuable parts
-	return &Prime{Primes: primes[0:counter]}
+	p.Primes = primes[0:counter]
 }
 
 // Save saves list primes into file
@@ -56,18 +56,11 @@ func (p *Prime)SavePrimes(fileName string) error {
 	if len(p.Primes) == 0 {
 		return errors.New("primes is empty")
 	}
-	//file, err := os.Create(fileName)
-	//if err != nil {
-	//	return err
-	//}
-	//defer file.Close()
 	data, err := proto2.Marshal(&proto.Prime{Primes: p.Primes})
 	if err != nil {
 		return err
 	}
 	return ioutil.WriteFile(fileName, data, 0777)
-	//encoder := proto.NewEncoder(file)
-	//return encoder.Encode(p)
 }
 
 // GetPrimes reads primes from given fileName
@@ -85,8 +78,8 @@ func (p *Prime)GetPrimes(fileName string) error {
 }
 
 // BinarySearch is used to search highest prime that is less than given number (n)
-func (p Prime)BinarySearch(left, right, n int32) int32 {
-	if len(p.Primes) == 0 {
+func (p *Prime)BinarySearch(left, right, n int32) int32 {
+	if len(p.Primes) == 0 || n < 2 {
 		return 0
 	}
 	if left <= right {
@@ -114,7 +107,7 @@ func (p Prime)BinarySearch(left, right, n int32) int32 {
 func (p *Prime)LoadPrimes(fileName string, number int) error {
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
 		// start SieveOfSundaram in `number's range` and save to file
-		p = SieveOfSundaram(number)
+		p.SieveOfSundaram(number)
 		return p.SavePrimes(fileName)
 	}
 	return p.GetPrimes(fileName)
