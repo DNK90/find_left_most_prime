@@ -54,7 +54,10 @@ func main() {
 	flag.Parse()
 	// load primes
 	log.Println("Loading Primes")
-	prime := prime2.SieveOfSundaram(math.MaxInt32)
+	prime := prime2.NewPrime()
+	if err := prime.LoadPrimes("data", math.MaxInt32); err != nil {
+		log.Fatal(err)
+	}
 	log.Println("Finished loading primes, Starting API")
 	// write memory profile after load primes
 	if args.memprofile != "" {
@@ -100,7 +103,7 @@ func main() {
 				c.String(http.StatusBadRequest, "number must be integer")
 			} else {
 				startTime := time.Now().UnixNano()
-				result := prime.BinarySearch(0, int32(len(prime)-1), int32(number))
+				result := prime.BinarySearch(0, int32(len(prime.Primes)-1), int32(number))
 				endTime := time.Now().UnixNano()
 				c.JSON(http.StatusOK, &Response{
 					Output:      result,
