@@ -14,11 +14,6 @@ import (
 	https://en.wikipedia.org/wiki/Sieve_of_Sundaram
  */
 
-type Utilities interface {
-	SavePrimes()
-	SearchPrimes(n int32)
-}
-
 // define Prime as a slice of integer
 type Prime proto.Prime
 
