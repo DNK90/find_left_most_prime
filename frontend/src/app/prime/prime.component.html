@@ -4,7 +4,7 @@
 <div>
 	<b>Input a number:</b>
 	<label>
-		<input #numberValue />
+		<input #numberValue (keyup.enter)="getPrime(numberValue.value)"/>
 	</label>
 	<button (click)="getPrime(numberValue.value)">Search</button>
 </div>
